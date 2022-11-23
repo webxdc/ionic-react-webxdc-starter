@@ -58,7 +58,6 @@ export default function Chats() {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        Topics:
         <IonList>
           {Object.keys(state.messages).map((topic) => (
             <IonItem
@@ -69,6 +68,7 @@ export default function Chats() {
             </IonItem>
           ))}
         </IonList>
+        {Object.keys(state.messages).length === 0 && <div>Nothing here yet, create a topic with the add button in the corner below.</div>}
       </IonContent>
       <IonFab slot="fixed" vertical="bottom" horizontal="end">
         <IonFabButton onClick={onAddTopic}>
