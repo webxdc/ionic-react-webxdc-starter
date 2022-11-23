@@ -23,4 +23,4 @@ yarn build
 - [ ] make it work on DC
     - [X] iOS
     - [ ] android
-    - [ ] desktop - styles are broken
+    - [X] desktop - styles are broken
