@@ -25,12 +25,14 @@ export default function Chat({ topic }: { topic: string }) {
   const state = useStore();
   const inputField = useRef<HTMLIonTextareaElement>();
 
+  const decodedTopic = decodeURIComponent(topic)
+
   const onSendMessage = () => {
     if (inputField.current) {
       const textInput = inputField.current;
       const value = textInput.value;
       if (value && value.length > 0) {
-        sendMessage(decodeURIComponent(topic), value);
+        sendMessage(topic, value);
         textInput.value = "";
       }
     }
@@ -43,14 +45,14 @@ export default function Chat({ topic }: { topic: string }) {
           <IonButtons slot="start">
             <IonBackButton />
           </IonButtons>
-          <IonTitle>Chat about {topic}</IonTitle>
+          <IonTitle>Chat about {decodedTopic}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding" fullscreen>
         <IonList lines="none">
-          {(state.messages[topic] || []).map(({ author, text }) => {
+          {(state.messages[topic] || []).map(({ author, text }, index) => {
             return (
-              <IonItem>
+              <IonItem key={index}>
                 <b>{author}:</b>
                 {text}
               </IonItem>
