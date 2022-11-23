@@ -21,10 +21,10 @@ export default function Chat({ topicId }: { topicId: string }) {
   const state = useStore();
   const inputField = useRef<HTMLIonTextareaElement>();
 
-  const topic = state.getTopicById(topicId)
+  const topic = state.getTopicById(topicId);
 
   if (!topic) {
-    return <IonPage>Topic not found</IonPage>
+    return <IonPage>Topic not found</IonPage>;
   }
 
   const onSendMessage = () => {
@@ -67,13 +67,22 @@ export default function Chat({ topicId }: { topicId: string }) {
       <IonFooter>
         <IonToolbar>
           <div style={{ display: "flex", alignItems: "center" }}>
-            <div style={{ "border": "1px solid", borderColor: "grey", flexGrow: 1, margin: "5px", borderRadius: "5px" }}>
+            <div
+              style={{
+                border: "1px solid",
+                borderColor: "grey",
+                flexGrow: 1,
+                margin: "5px",
+                borderRadius: "5px",
+              }}
+            >
               <IonTextarea
                 ref={inputField as any}
                 placeholder="Enter message here"
                 rows={1}
                 style={{ "--padding-top": "0px" }}
-              ></IonTextarea></div>
+              ></IonTextarea>
+            </div>
             <IonButton onClick={onSendMessage}>
               <IonIcon icon={sendOutline}></IonIcon>
             </IonButton>

@@ -72,7 +72,10 @@ export default function Settings() {
             <IonLabel>Pointless Toggle Switch</IonLabel>
             <IonToggle slot="end"></IonToggle>
           </IonItem>
-          <IonItem><IonLabel>Some Range</IonLabel><IonRange></IonRange></IonItem>
+          <IonItem>
+            <IonLabel>Some Range</IonLabel>
+            <IonRange></IonRange>
+          </IonItem>
         </IonList>
       </IonContent>
     </IonPage>

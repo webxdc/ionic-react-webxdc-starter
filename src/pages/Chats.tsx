@@ -61,18 +61,14 @@ export default function Chats() {
       <IonContent className="ion-padding">
         <IonList>
           {state.topics.map(({ id, name }) => (
-            <IonItem
-              routerLink={"/chats/" + id}
-              key={id}
-            >
+            <IonItem routerLink={"/chats/" + id} key={id}>
               <IonLabel>{name}</IonLabel>
-              {(state.readCounts[id] || 0) <
-                state.messages[id]?.length && (
-                  <IonBadge>
-                    {(state.messages[id]?.length || 0) -
-                      (state.readCounts[id] || 0)}
-                  </IonBadge>
-                )}
+              {(state.readCounts[id] || 0) < state.messages[id]?.length && (
+                <IonBadge>
+                  {(state.messages[id]?.length || 0) -
+                    (state.readCounts[id] || 0)}
+                </IonBadge>
+              )}
             </IonItem>
           ))}
         </IonList>
