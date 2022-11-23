@@ -21,7 +21,7 @@ const App: React.FC = () => (
     <IonReactHashRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Redirect exact path="/" to="/settings" />
+          <Redirect exact path="/" to="/chats" />
           <Route exact path="/settings">
             <Settings />
           </Route>
