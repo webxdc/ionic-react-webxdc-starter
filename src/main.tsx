@@ -5,6 +5,19 @@ import App from "./App";
 import { init } from "./store";
 
 window.onload = () => {
+  // Add or remove the "dark" class based on if the media query matches
+  function toggleDarkTheme(shouldAdd: boolean) {
+    document.body.classList.toggle('dark', shouldAdd);
+  }
+
+  // Use matchMedia to check the user preference
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+  toggleDarkTheme(prefersDark.matches);
+
+  // Listen for changes to the prefers-color-scheme media query
+  prefersDark.addListener((mediaQuery) => toggleDarkTheme(mediaQuery.matches));
+
   const container = document.getElementById("root");
   const root = createRoot(container!);
   root.render(
