@@ -7,11 +7,11 @@ import { init } from "./store";
 window.onload = () => {
   // Add or remove the "dark" class based on if the media query matches
   function toggleDarkTheme(shouldAdd: boolean) {
-    document.body.classList.toggle('dark', shouldAdd);
+    document.body.classList.toggle("dark", shouldAdd);
   }
 
   // Use matchMedia to check the user preference
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
 
   toggleDarkTheme(prefersDark.matches);
 
@@ -26,7 +26,7 @@ window.onload = () => {
     </React.StrictMode>
   );
   // init ionic after loading
-  const mode = localStorage.getItem("mode") || "auto"
+  const mode = localStorage.getItem("mode") || "auto";
   switch (mode) {
     case "md":
     case "ios":
@@ -41,6 +41,4 @@ window.onload = () => {
   init().then(() => {
     console.log("Loading done");
   });
-}
-
-
+};

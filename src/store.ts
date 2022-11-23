@@ -6,7 +6,7 @@ interface State {
   messages: { [key: string]: Message[] };
   readCounts: { [key: string]: number };
   applyWebxdcUpdate: (update: Payload) => void;
-  setNoticedTopic: (topic: string) => void
+  setNoticedTopic: (topic: string) => void;
 }
 
 export const useStore = create<State>((set) => ({
@@ -23,11 +23,19 @@ export const useStore = create<State>((set) => ({
       }
       return newState;
     }),
-  setNoticedTopic: (topic: string) => set((state) => { 
-    const newReadCounts = { ...state.readCounts, [topic]: state.messages[topic]?.length }
-    localStorage.setItem(window.webxdc.selfAddr + "-ReadCounts", JSON.stringify(newReadCounts))
-    
-    return { ...state, readCounts: newReadCounts } })
+  setNoticedTopic: (topic: string) =>
+    set((state) => {
+      const newReadCounts = {
+        ...state.readCounts,
+        [topic]: state.messages[topic]?.length,
+      };
+      localStorage.setItem(
+        window.webxdc.selfAddr + "-ReadCounts",
+        JSON.stringify(newReadCounts)
+      );
+
+      return { ...state, readCounts: newReadCounts };
+    }),
 }));
 
 export async function init() {
@@ -35,9 +43,11 @@ export async function init() {
     useStore.getState().applyWebxdcUpdate(message.payload);
   }, 0);
 
-  const state = useStore.getState()
-  const newReadCounts = JSON.parse(localStorage.getItem(window.webxdc.selfAddr + "-ReadCounts")||"{}")
-  useStore.setState({ ...state, readCounts: newReadCounts })
+  const state = useStore.getState();
+  const newReadCounts = JSON.parse(
+    localStorage.getItem(window.webxdc.selfAddr + "-ReadCounts") || "{}"
+  );
+  useStore.setState({ ...state, readCounts: newReadCounts });
 }
 
 export async function sendMessage(topic: string, text: string) {
@@ -45,7 +55,7 @@ export async function sendMessage(topic: string, text: string) {
     { payload: { author: window.webxdc.selfName, topic, text } },
     `${window.webxdc.selfName} sent a message in ${topic}: ${text}`
   );
-  useStore.getState().setNoticedTopic(topic)
+  useStore.getState().setNoticedTopic(topic);
 }
 
 import { WebXdc } from "webxdc-types";

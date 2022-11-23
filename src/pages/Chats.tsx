@@ -66,11 +66,22 @@ export default function Chats() {
               key={topic}
             >
               <IonLabel>{decodeURIComponent(topic)}</IonLabel>
-              {(state.readCounts[topic]||0) < state.messages[topic]?.length && <IonBadge>{(state.messages[topic]?.length || 0) - (state.readCounts[topic]||0)}</IonBadge>}
+              {(state.readCounts[topic] || 0) <
+                state.messages[topic]?.length && (
+                <IonBadge>
+                  {(state.messages[topic]?.length || 0) -
+                    (state.readCounts[topic] || 0)}
+                </IonBadge>
+              )}
             </IonItem>
           ))}
         </IonList>
-        {Object.keys(state.messages).length === 0 && <div>Nothing here yet, create a topic with the add button in the corner below.</div>}
+        {Object.keys(state.messages).length === 0 && (
+          <div>
+            Nothing here yet, create a topic with the add button in the corner
+            below.
+          </div>
+        )}
       </IonContent>
       <IonFab slot="fixed" vertical="bottom" horizontal="end">
         <IonFabButton onClick={onAddTopic}>

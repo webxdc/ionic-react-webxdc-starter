@@ -30,7 +30,7 @@ const App: React.FC = () => (
           </Route>
           <Route
             path="/:tab(chats)/:topic"
-            render={(e) => (<Chat topic={e.match.params.topic} />)}
+            render={(e) => <Chat topic={e.match.params.topic} />}
           ></Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">

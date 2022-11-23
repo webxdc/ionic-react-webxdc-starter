@@ -25,7 +25,7 @@ export default function Chat({ topic }: { topic: string }) {
   const state = useStore();
   const inputField = useRef<HTMLIonTextareaElement>();
 
-  const decodedTopic = decodeURIComponent(topic)
+  const decodedTopic = decodeURIComponent(topic);
 
   const onSendMessage = () => {
     if (inputField.current) {
@@ -39,8 +39,8 @@ export default function Chat({ topic }: { topic: string }) {
   };
 
   useEffect(() => {
-    state.setNoticedTopic(topic)
-  }, [state.messages[topic].length])
+    state.setNoticedTopic(topic);
+  }, [state.messages[topic].length]);
 
   return (
     <IonPage>
