@@ -33,7 +33,7 @@ export default function Chats() {
           role: "confirm",
           handler: ({ ["0"]: name }) => {
             if (name.length >= 1) {
-              sendMessage(name, `I created ${name}`);
+              sendMessage(encodeURIComponent(name), `I created ${name}`);
             }
           },
         },
@@ -64,7 +64,7 @@ export default function Chats() {
               routerLink={"/chats/" + encodeURIComponent(topic)}
               key={topic}
             >
-              <IonLabel>{topic}</IonLabel>
+              <IonLabel>{decodeURIComponent(topic)}</IonLabel>
             </IonItem>
           ))}
         </IonList>
