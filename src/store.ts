@@ -17,7 +17,7 @@ interface State {
   readCounts: { [topicId: TopicId]: number };
   topics: Topic[];
   unreadCount: number;
-  applyWebxdcUpdate: (update: Payload) => void;
+  applyWebxdcUpdate: (update: Payload, lastOfBatch: boolean) => void;
   setNoticedTopic: (topic: TopicId) => void;
   getTopicById: (id: TopicId) => Topic | undefined;
   updateUnreadCount: () => void;
@@ -31,7 +31,7 @@ export const useStore = create<State>((set, get) => ({
   readCounts: {},
   topics: [],
   unreadCount: 0,
-  applyWebxdcUpdate: (update: Payload) =>
+  applyWebxdcUpdate: (update, lastOfBatch) =>
     set((state) => {
       const { topic, author, text, msgId } = update;
       const id = topicNameToId(topic);
@@ -52,13 +52,25 @@ export const useStore = create<State>((set, get) => ({
       // mark the message as read if we just sent it our
       console.log({ ownMessageIds });
 
+      let ownMessage = false
+
       if (ownMessageIds.indexOf(msgId) !== -1) {
-        newState.readCounts[id] = 1;
+        ownMessage = true
+        if (typeof newState.readCounts[id] === "undefined") {
+          newState.readCounts[id] = 1;
+        } else {
+          newState.readCounts[id]++;
+        }
         localStorage.setItem(
           window.webxdc.selfAddr + "-ReadCounts",
           JSON.stringify(newState.readCounts)
         );
         ownMessageIds = ownMessageIds.filter((m) => m !== msgId);
+      }
+      if (lastOfBatch && !ownMessage) {
+        newState.unreadCount = Object.keys(newState.messages)
+          .map((key) => newState.messages[key].length - (newState.readCounts[key] || 0))
+          .reduce((p, c) => p + c, 0);
       }
       return newState;
     }),
@@ -73,7 +85,7 @@ export const useStore = create<State>((set, get) => ({
         JSON.stringify(newReadCounts)
       );
       const unreadCount = Object.keys(state.messages)
-        .map((key) => state.messages[key].length - (state.readCounts[key] || 0))
+        .map((key) => state.messages[key].length - (newReadCounts[key] || 0))
         .reduce((p, c) => p + c, 0);
       return { ...state, readCounts: newReadCounts, unreadCount };
     }),
@@ -91,10 +103,7 @@ export const useStore = create<State>((set, get) => ({
 
 export async function init() {
   await window.webxdc.setUpdateListener((message) => {
-    useStore.getState().applyWebxdcUpdate(message.payload);
-    if (message.serial === message.max_serial) {
-      useStore.getState().updateUnreadCount();
-    }
+    useStore.getState().applyWebxdcUpdate(message.payload, message.serial === message.max_serial);
   }, 0);
 
   const state = useStore.getState();
