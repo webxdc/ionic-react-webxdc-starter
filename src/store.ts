@@ -4,11 +4,14 @@ type Message = { author: string; text: string };
 
 interface State {
   messages: { [key: string]: Message[] };
+  readCounts: { [key: string]: number };
   applyWebxdcUpdate: (update: Payload) => void;
+  setNoticedTopic: (topic: string) => void
 }
 
 export const useStore = create<State>((set) => ({
   messages: {},
+  readCounts: {},
   applyWebxdcUpdate: (update: Payload) =>
     set((state) => {
       const { topic, author, text } = update;
@@ -20,12 +23,21 @@ export const useStore = create<State>((set) => ({
       }
       return newState;
     }),
+  setNoticedTopic: (topic: string) => set((state) => { 
+    const newReadCounts = { ...state.readCounts, [topic]: state.messages[topic]?.length }
+    localStorage.setItem(window.webxdc.selfAddr + "-ReadCounts", JSON.stringify(newReadCounts))
+    
+    return { ...state, readCounts: newReadCounts } })
 }));
 
 export async function init() {
-  return window.webxdc.setUpdateListener((message) => {
+  await window.webxdc.setUpdateListener((message) => {
     useStore.getState().applyWebxdcUpdate(message.payload);
   }, 0);
+
+  const state = useStore.getState()
+  const newReadCounts = JSON.parse(localStorage.getItem(window.webxdc.selfAddr + "-ReadCounts")||"{}")
+  useStore.setState({ ...state, readCounts: newReadCounts })
 }
 
 export async function sendMessage(topic: string, text: string) {
@@ -33,6 +45,7 @@ export async function sendMessage(topic: string, text: string) {
     { payload: { author: window.webxdc.selfName, topic, text } },
     `${window.webxdc.selfName} sent a message in ${topic}: ${text}`
   );
+  useStore.getState().setNoticedTopic(topic)
 }
 
 import { WebXdc } from "webxdc-types";

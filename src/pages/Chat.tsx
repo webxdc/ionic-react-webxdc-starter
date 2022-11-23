@@ -18,7 +18,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { sendOutline } from "ionicons/icons";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { sendMessage, useStore } from "../store";
 
 export default function Chat({ topic }: { topic: string }) {
@@ -37,6 +37,10 @@ export default function Chat({ topic }: { topic: string }) {
       }
     }
   };
+
+  useEffect(() => {
+    state.setNoticedTopic(topic)
+  }, [state.messages[topic].length])
 
   return (
     <IonPage>

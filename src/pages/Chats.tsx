@@ -1,4 +1,5 @@
 import {
+  IonBadge,
   IonContent,
   IonFab,
   IonFabButton,
@@ -65,6 +66,7 @@ export default function Chats() {
               key={topic}
             >
               <IonLabel>{decodeURIComponent(topic)}</IonLabel>
+              {(state.readCounts[topic]||0) < state.messages[topic]?.length && <IonBadge>{(state.messages[topic]?.length || 0) - (state.readCounts[topic]||0)}</IonBadge>}
             </IonItem>
           ))}
         </IonList>
