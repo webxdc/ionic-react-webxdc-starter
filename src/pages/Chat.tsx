@@ -2,12 +2,8 @@ import {
   IonBackButton,
   IonButton,
   IonButtons,
-  IonCard,
-  IonCardContent,
-  IonCol,
   IonContent,
   IonFooter,
-  IonGrid,
   IonHeader,
   IonIcon,
   IonItem,
@@ -69,20 +65,20 @@ export default function Chat({ topicId }: { topicId: string }) {
         </IonList>
       </IonContent>
       <IonFooter>
-        <IonCard>
-          <IonCardContent>
-            <div style={{display: "flex"}}>
+        <IonToolbar>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <div style={{ "border": "1px solid", borderColor: "grey", flexGrow: 1, margin: "5px", borderRadius: "5px" }}>
               <IonTextarea
-                  ref={inputField as any}
-                  placeholder="Enter message here"
-                  rows={1}
-                ></IonTextarea>
-                <IonButton onClick={onSendMessage}>
-                  <IonIcon icon={sendOutline}></IonIcon>
-                </IonButton>
-            </div>
-          </IonCardContent>
-        </IonCard>
+                ref={inputField as any}
+                placeholder="Enter message here"
+                rows={1}
+                style={{ "--padding-top": "0px" }}
+              ></IonTextarea></div>
+            <IonButton onClick={onSendMessage}>
+              <IonIcon icon={sendOutline}></IonIcon>
+            </IonButton>
+          </div>
+        </IonToolbar>
       </IonFooter>
     </IonPage>
   );

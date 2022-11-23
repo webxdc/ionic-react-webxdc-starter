@@ -10,6 +10,8 @@ import {
   IonListHeader,
   IonTitle,
   IonToolbar,
+  IonToggle,
+  IonRange,
 } from "@ionic/react";
 
 export default function Settings() {
@@ -63,6 +65,14 @@ export default function Settings() {
               <IonRadio slot="end" value="ios"></IonRadio>
             </IonItem>
           </IonRadioGroup>
+        </IonList>
+        <IonList>
+          <IonListHeader>Dummy Settings</IonListHeader>
+          <IonItem>
+            <IonLabel>Pointless Toggle Switch</IonLabel>
+            <IonToggle slot="end"></IonToggle>
+          </IonItem>
+          <IonItem><IonLabel>Some Range</IonLabel><IonRange></IonRange></IonItem>
         </IonList>
       </IonContent>
     </IonPage>
