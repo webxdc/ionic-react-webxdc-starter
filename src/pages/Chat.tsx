@@ -21,26 +21,30 @@ import { sendOutline } from "ionicons/icons";
 import { useEffect, useRef } from "react";
 import { sendMessage, useStore } from "../store";
 
-export default function Chat({ topic }: { topic: string }) {
+export default function Chat({ topicId }: { topicId: string }) {
   const state = useStore();
   const inputField = useRef<HTMLIonTextareaElement>();
 
-  const decodedTopic = decodeURIComponent(topic);
+  const topic = state.getTopicById(topicId)
+
+  if (!topic) {
+    return <IonPage>Topic not found</IonPage>
+  }
 
   const onSendMessage = () => {
     if (inputField.current) {
       const textInput = inputField.current;
       const value = textInput.value;
       if (value && value.length > 0) {
-        sendMessage(topic, value);
+        sendMessage(topic.name, value);
         textInput.value = "";
       }
     }
   };
 
   useEffect(() => {
-    state.setNoticedTopic(topic);
-  }, [state.messages[topic].length]);
+    state.setNoticedTopic(topic.id);
+  }, [state.messages[topic.id].length]);
 
   return (
     <IonPage>
@@ -49,12 +53,12 @@ export default function Chat({ topic }: { topic: string }) {
           <IonButtons slot="start">
             <IonBackButton />
           </IonButtons>
-          <IonTitle>Chat about {decodedTopic}</IonTitle>
+          <IonTitle>Chat about {topic.name}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding" fullscreen>
         <IonList lines="none">
-          {(state.messages[topic] || []).map(({ author, text }, index) => {
+          {(state.messages[topic.id] || []).map(({ author, text }, index) => {
             return (
               <IonItem key={index}>
                 <b>{author}:</b>
@@ -67,19 +71,16 @@ export default function Chat({ topic }: { topic: string }) {
       <IonFooter>
         <IonCard>
           <IonCardContent>
-            <IonGrid>
-              <IonCol size="11">
-                <IonTextarea
+            <div style={{display: "flex"}}>
+              <IonTextarea
                   ref={inputField as any}
                   placeholder="Enter message here"
+                  rows={1}
                 ></IonTextarea>
-              </IonCol>
-              <IonCol size="auto">
                 <IonButton onClick={onSendMessage}>
                   <IonIcon icon={sendOutline}></IonIcon>
                 </IonButton>
-              </IonCol>
-            </IonGrid>
+            </div>
           </IonCardContent>
         </IonCard>
       </IonFooter>

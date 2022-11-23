@@ -34,7 +34,7 @@ export default function Chats() {
           role: "confirm",
           handler: ({ ["0"]: name }) => {
             if (name.length >= 1) {
-              sendMessage(encodeURIComponent(name), `I created ${name}`);
+              sendMessage(name, `I created ${name}`);
             }
           },
         },
@@ -60,19 +60,19 @@ export default function Chats() {
       </IonHeader>
       <IonContent className="ion-padding">
         <IonList>
-          {Object.keys(state.messages).map((topic) => (
+          {state.topics.map(({ id, name }) => (
             <IonItem
-              routerLink={"/chats/" + encodeURIComponent(topic)}
-              key={topic}
+              routerLink={"/chats/" + id}
+              key={id}
             >
-              <IonLabel>{decodeURIComponent(topic)}</IonLabel>
-              {(state.readCounts[topic] || 0) <
-                state.messages[topic]?.length && (
-                <IonBadge>
-                  {(state.messages[topic]?.length || 0) -
-                    (state.readCounts[topic] || 0)}
-                </IonBadge>
-              )}
+              <IonLabel>{name}</IonLabel>
+              {(state.readCounts[id] || 0) <
+                state.messages[id]?.length && (
+                  <IonBadge>
+                    {(state.messages[id]?.length || 0) -
+                      (state.readCounts[id] || 0)}
+                  </IonBadge>
+                )}
             </IonItem>
           ))}
         </IonList>
