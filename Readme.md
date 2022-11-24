@@ -31,4 +31,4 @@ yarn build
 
 > Hint: If you just want to quickly try it out you could use github codespaces.
 > 
-> or stackblitz also works: https://stackblitz.com/github/webxdc/ionic-react-webxdc-starter (chrome/chromium works best from stackblitz, firefox version is still in beta)
+> or stackblitz also works: https://stackblitz.com/github/webxdc/ionic-react-webxdc-starter (chrome/chromium works best for stackblitz, firefox version is still in beta)
