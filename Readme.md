@@ -28,3 +28,5 @@ build:
 ```
 yarn build
 ```
+
+> Hint: If you just want to quickly try it out you could use github codespaces.
