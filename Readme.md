@@ -1,5 +1,18 @@
 # Webxdc starter chat example with Ionic Framework and React
 
+## Features
+
+- Chat about multiple Topics in one webxdc
+- Unread bages using localstorage
+- Automatic Dark- and Light-Theme
+- Automatic and Switchable Android / iOS Theme
+
+## Screenshots
+
+<img src="screenshot.png" height="360px"/>
+<img src="screenshot2.png" height="360px"/>
+
+## Usage
 
 install dependencies:
 ```
@@ -15,12 +28,3 @@ build:
 ```
 yarn build
 ```
-
-
-## TODO
-- [X] make ionic and the basic app work
-- [X] compile webxdc to .xdc file
-- [ ] make it work on DC
-    - [X] iOS
-    - [ ] android
-    - [X] desktop - styles are broken
