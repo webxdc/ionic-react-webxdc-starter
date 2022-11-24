@@ -2,14 +2,14 @@
 //@ts-check
 /** @type {import("webxdc-types").WebXdc<any>} */
 window.webxdc = (() => {
-    var updateListener = (_) => {};
+    var updateListener = (_) => { };
     var updatesKey = "__xdcUpdatesKey__";
     window.addEventListener('storage', (event) => {
         if (event.key == null) {
             window.location.reload();
         } else if (event.key === updatesKey) {
             var updates = JSON.parse(event.newValue);
-            var update = updates[updates.length-1];
+            var update = updates[updates.length - 1];
             update.max_serial = updates.length;
             console.log("[Webxdc] " + JSON.stringify(update));
             updateListener(update);
@@ -44,7 +44,7 @@ window.webxdc = (() => {
         sendUpdate: (update, description) => {
             var updates = getUpdates();
             var serial = updates.length + 1;
-            var _update = {payload: update.payload, summary: update.summary, info: update.info, serial: serial};
+            var _update = { payload: update.payload, summary: update.summary, info: update.info, serial: serial };
             updates.push(_update);
             window.localStorage.setItem(updatesKey, JSON.stringify(updates));
             _update.max_serial = serial;
@@ -99,7 +99,7 @@ window.alterXdcApp = () => {
         function loadIcon(name) {
             var tester = new Image();
             tester.onload = () => {
-                div.innerHTML = '<img src="' + name + '" style="' + styleAppIcon +'">';
+                div.innerHTML = '<img src="' + name + '" style="' + styleAppIcon + '">';
                 controlPanel.insertBefore(div.firstChild, controlPanel.firstChild);
             };
             tester.src = name;
